@@ -1,4 +1,3 @@
-// hooks/usePaginacao.ts
 
 import { useState } from "react";
 

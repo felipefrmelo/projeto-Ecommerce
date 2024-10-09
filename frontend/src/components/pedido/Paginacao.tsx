@@ -1,21 +1,14 @@
-// components/pedido/Paginacao.tsx
+import Setas from "../shared/Setas";
+import { PaginacaoProps } from "@/src/core/paginacao/PaginacaoProps";
 
-interface PaginacaoProps {
-    paginaAtual: number;
-    totalPaginas: number;
-    irParaPagina: (pagina: number) => void;
-  }
-  
-  export default function Paginacao({ paginaAtual, totalPaginas, irParaPagina }: PaginacaoProps) {
+export default function Paginacao({ paginaAtual, totalPaginas, irParaPagina }: PaginacaoProps) {
     return (
-      <div>
-        <button onClick={() => irParaPagina(paginaAtual - 1)} disabled={paginaAtual === 1}>
-          Anterior
-        </button>
-        <button onClick={() => irParaPagina(paginaAtual + 1)} disabled={paginaAtual === totalPaginas}>
-          Próximo
-        </button>
-      </div>
+        <div>
+            <Setas 
+                paginaAtual={paginaAtual} 
+                totalPaginas={totalPaginas} 
+                irParaPagina={irParaPagina} 
+            />
+        </div>
     );
-  }
-  
+}
