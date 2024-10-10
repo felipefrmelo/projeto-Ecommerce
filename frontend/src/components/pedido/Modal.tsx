@@ -1,32 +1,38 @@
-import { useState } from 'react';
-import { Pedido, itensPedido } from '@/src/core';
+import { useState, useEffect } from 'react';
+import { Pedido } from '@/src/core';
 
 export default function CriarPedidoModal({ onSubmit }: { onSubmit: (pedido: Pedido) => void }) {
     const [pedido, setPedido] = useState<Pedido>({
-        id: 0, // O backend gera o ID
+        id: 0, 
         nomeCliente: '',
-        statusPedido: 'pendente', // valor padrão
+        statusPedido: 'pendente', 
         dataPedido: '',
         itensPedidos: {
             nomeProduto: '',
-            qntde:0,
-            valorUnitario:0,
-
+            qntde: 0,
+            valorUnitario: 0,
         },
         valorSubtotal: 0,
         valorFrete: 0,
         valorTotal: 0
     });
 
+    useEffect(() => {
+        const subtotal = pedido.itensPedidos.qntde * pedido.itensPedidos.valorUnitario;
+        const total = subtotal + pedido.valorFrete;
+        setPedido((prev) => ({ ...prev, valorSubtotal: subtotal, valorTotal: total }));
+    }, [pedido.itensPedidos.qntde, pedido.itensPedidos.valorUnitario, pedido.valorFrete]);
+
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         const { name, value } = e.target;
         setPedido((prev) => ({ ...prev, [name]: value }));
     }
 
-
-
     function handleSubmit() {
-        if (pedido.nomeCliente === '') { // Usar === para comparação
+        if (pedido.nomeCliente === '' || 
+            pedido.itensPedidos.nomeProduto === '' || 
+            pedido.itensPedidos.qntde === 0 || 
+            pedido.itensPedidos.valorUnitario === 0) {
             alert('Campos obrigatórios estão faltando');
             return;
         }
@@ -34,99 +40,94 @@ export default function CriarPedidoModal({ onSubmit }: { onSubmit: (pedido: Pedi
     }
 
     return (
-<div>
-  <h2>Criar Pedido</h2>
+        <div>
+            <h2>Criar Pedido</h2>
 
-  {/* Nome do Cliente */}
-  <input 
-    name="nomeCliente" 
-    value={pedido.nomeCliente} 
-    onChange={handleChange} 
-    placeholder="Nome do Cliente" 
-  />
+            <input 
+                name="nomeCliente" 
+                value={pedido.nomeCliente} 
+                onChange={handleChange} 
+                placeholder="Nome do Cliente" 
+            />
 
-  {/* Data do Pedido */}
-  <input 
-    type="date" 
-    name="dataPedido" 
-    value={pedido.dataPedido} 
-    onChange={handleChange} 
-    placeholder="Data do Pedido" 
-  />
+            <input 
+                type="date" 
+                name="dataPedido" 
+                value={pedido.dataPedido} 
+                onChange={handleChange} 
+                placeholder="Data do Pedido" 
+            />
 
-  {/* Produto */}
-  <input 
-    name="nomeProduto" 
-    value={pedido.itensPedidos.nomeProduto} 
-    onChange={(e) => 
-      setPedido(prev => ({ 
-        ...prev, 
-        itensPedidos: { ...prev.itensPedidos, nomeProduto: e.target.value } 
-      }))
-    } 
-    placeholder="Nome do Produto" 
-  />
+            <input 
+                name="nomeProduto" 
+                value={pedido.itensPedidos.nomeProduto} 
+                onChange={(e) => 
+                    setPedido(prev => ({ 
+                        ...prev, 
+                        itensPedidos: { ...prev.itensPedidos, nomeProduto: e.target.value } 
+                    }))
+                } 
+                placeholder="Nome do Produto" 
+            />
 
-  {/* Quantidade */}
-  <input 
-    type="number" 
-    name="qntde"
-    value={pedido.itensPedidos.qntde} 
-    onChange={(e) => 
-      setPedido(prev => ({ 
-        ...prev, 
-        itensPedidos: { ...prev.itensPedidos, qntde: Number(e.target.value) } 
-      }))
-    } 
-    placeholder="Quantidade" 
-  />
+            <input 
+                type="number" 
+                name="qntde"
+                value={pedido.itensPedidos.qntde} 
+                onChange={(e) => 
+                    setPedido(prev => ({ 
+                        ...prev, 
+                        itensPedidos: { ...prev.itensPedidos, qntde: Number(e.target.value) } 
+                    }))
+                } 
+                placeholder="Quantidade" 
+                min="1"
+            />
 
-  {/* Valor Unitário */}
-  <input 
-    type="number"  
-    name="valorUnitario" 
-    value={pedido.itensPedidos.valorUnitario} 
-    onChange={(e) => 
-      setPedido(prev => ({ 
-        ...prev, 
-        itensPedidos: { ...prev.itensPedidos, valorUnitario: Number(e.target.value) } 
-      }))
-    } 
-    placeholder="Valor Unitário" 
-  />
+            <input 
+                type="number"  
+                name="valorUnitario" 
+                value={pedido.itensPedidos.valorUnitario} 
+                onChange={(e) => 
+                    setPedido(prev => ({ 
+                        ...prev, 
+                        itensPedidos: { ...prev.itensPedidos, valorUnitario: Number(e.target.value) } 
+                    }))
+                } 
+                placeholder="Valor Unitário" 
+                min="0"
+                step="0.01"
+            />
 
-  {/* Valor Subtotal */}
-  <input 
-    type="number" 
-    step="0.01" 
-    name="valorSubtotal" 
-    value={pedido.valorSubtotal} 
-    onChange={handleChange} 
-    placeholder="Subtotal" 
-  />
+            <input 
+                type="number" 
+                name="valorSubtotal" 
+                value={pedido.valorSubtotal} 
+                readOnly 
+                placeholder="Subtotal"
+            />
 
-  {/* Valor Frete */}
-  <input 
-    type="number" 
-    step="0.01" 
-    name="valorFrete" 
-    value={pedido.valorFrete} 
-    onChange={handleChange} 
-    placeholder="Frete" 
-  />
+            <input 
+                type="number" 
+                name="valorFrete" 
+                value={pedido.valorFrete} 
+                onChange={(e) => 
+                    setPedido(prev => ({ ...prev, valorFrete: Number(e.target.value) }))
+                } 
+                placeholder="Frete" 
+                min="0"
+                step="0.01"
+            />
 
-  {/* Valor Total */}
-  <input 
-    type="number" 
-    step="0.01" 
-    name="valorTotal" 
-    value={pedido.valorTotal} 
-    onChange={handleChange} 
-    placeholder="Total" 
-  />
+            <input 
+                type="number" 
+                name="valorTotal" 
+                value={pedido.valorTotal} 
+                readOnly 
+                placeholder="Total" 
+            />
 
-  <button onClick={handleSubmit}>Criar</button>
-</div>
-
+            <button onClick={handleSubmit}>Criar</button>
+        </div>
     );
 }

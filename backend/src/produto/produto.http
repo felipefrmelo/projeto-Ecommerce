@@ -5,4 +5,4 @@ GET http://localhost:4000/pedidos/1
 POST http://localhost:4000/pedidos
 
 ###
-PUT http://localhost:4000/pedidos
+PUT http://localhost:4000/pedidos/2
