@@ -17,8 +17,9 @@
         "name": "next"
       }
     ],
-    "paths": {
-      "@/*": ["./*"]
+   "paths": {
+      "@/*": ["./*"],   // Para o código local do frontend/backend
+      "@core/*": ["../core/*"]  // Para o código compartilhado na pasta core
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

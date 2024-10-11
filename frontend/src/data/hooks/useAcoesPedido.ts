@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pedido } from "@/src/core";
+import { Pedido } from '@core/pedido';
 
 export function useAcoesPedido() {
   const [isModalOpen, setModalOpen] = useState(false);

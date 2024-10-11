@@ -1,15 +1,14 @@
 'use client';
 import PedidosItem from "../../components/pedido/PedidosItem";
-import Paginacao from "@/src/components/pedido/Paginacao";
+import Paginacao from "@/src/components/paginacao/Paginacao";
 import usePedidos from "../../data/hooks/usePedidos";
 import usePaginacao from "../../data/hooks/usePaginacao";
-import { Pedido } from "@/src/core";
+import { Pedido } from '@core/pedido';
 import AcoesPedido from "@/src/components/pedido/AcoesPedido";
 import { useState } from "react";
 
 export default function Home() {
     const { itensPedidos, criarPedido, deletarPedido } = usePedidos();
-    const [selectedPedido, setSelectedPedido] = useState<Pedido | null>(null);
 
     const itensPorPagina = 3;
 
@@ -37,10 +36,12 @@ export default function Home() {
             width: '100%',
             alignItems: 'center'
         }}>
+        
             <AcoesPedido
                 onCreate={handleCreate}
                 onDelete={handleDelete}
             />
+        
 
             {pedidosPaginados.map((pedido: Pedido) => (
                 <PedidosItem key={pedido.id} pedido={pedido} />

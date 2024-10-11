@@ -1,5 +1,5 @@
 'use client'
-import Pedido from "@/src/core/pedido/Pedido"
+import { Pedido } from '@core/pedido';
 
 
 export interface PedidoItemProps{

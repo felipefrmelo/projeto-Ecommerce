@@ -1,5 +1,6 @@
-import CriarPedidoModal from "./Modal";
-import { Pedido } from "@/src/core";
+import CriarPedidoModal from "../modal/CriarPedidoModal";
+import DeletarPedidoModal from "../modal/DeletarPedidoModal";
+import { Pedido } from '@core/pedido';
 import { useAcoesPedido } from "@/src/data/hooks/useAcoesPedido";
 interface AcoesPedidoProps {
   onCreate: (pedido: Pedido) => void;
@@ -10,45 +11,43 @@ export default function AcoesPedido({ onCreate, onDelete }: AcoesPedidoProps) {
   const {
     isModalOpen,
     modalType,
-    pedidoId,
-    setPedidoId,
     openModal,
     closeModal
   } = useAcoesPedido();
 
-  const handleCreate = (pedido: Pedido) => {
-    onCreate(pedido);
-    closeModal();
-  };
-
-  const handleDelete = () => {
-    if (pedidoId) {
-      onDelete(pedidoId);
-      closeModal();
-    }
-  };
-
   return (
-    <div>
-      <button onClick={() => openModal('create')}>Criar Pedido</button>
-      <button onClick={() => openModal('delete')}>Deletar Pedido</button>
+    <div style={{ width: '100%' }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: '30px',
+        width: '100%',
+        paddingBottom: '20px'
+      }}>
+        <button style={{
+          backgroundColor: 'green',
+          color: 'white',
+          borderRadius: '10px',
+          padding: '8px 15px',
+          fontWeight: '500'
+        }} onClick={() => openModal('create')}>Criar Pedido</button>
+
+        <button style={{
+          backgroundColor: 'red',
+          color: 'white',
+          borderRadius: '10px',
+          padding: '8px 15px',
+          fontWeight: '500'
+        }} onClick={() => openModal('delete')}>Deletar Pedido</button>
+      </div>
 
       {modalType === 'create' && (
-        <CriarPedidoModal
-          onSubmit={handleCreate}
-        />
+        <CriarPedidoModal onSubmit={onCreate} />
       )}
 
       {modalType === 'delete' && (
-        <div>
-          <h2>Deletar Pedido</h2>
-          <input 
-            placeholder="ID do Pedido" 
-            value={pedidoId || ''} 
-            onChange={(e) => setPedidoId(Number(e.target.value))} 
-          />
-          <button onClick={handleDelete}>Deletar</button>
-        </div>
+        <DeletarPedidoModal onDelete={onDelete} />
       )}
     </div>
   );

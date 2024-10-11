@@ -1,4 +1,4 @@
-import { Pedido } from "@/src/core";
+import { Pedido } from '@core/pedido';
 import { useCallback, useEffect, useState } from "react";
 
 const urlBase = 'http://localhost:4000'
