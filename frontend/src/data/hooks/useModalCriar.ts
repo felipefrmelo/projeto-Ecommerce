@@ -1,6 +1,7 @@
-import { Pedido } from '@core/pedido';
+import { Pedido } from "@/src/core";
 import { useEffect, useState } from 'react';
 export function useModal({ onSubmit }: { onSubmit: (pedido: Pedido) => void }) {
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [pedido, setPedido] = useState<Pedido>({
         id: 0, 
         nomeCliente: '',
@@ -37,6 +38,8 @@ export function useModal({ onSubmit }: { onSubmit: (pedido: Pedido) => void }) {
             return;
         }
         onSubmit(pedido);
+        setSuccessMessage("Pedido criado com sucesso!"); 
+
     }
 
     return {
@@ -44,6 +47,7 @@ export function useModal({ onSubmit }: { onSubmit: (pedido: Pedido) => void }) {
         setPedido,
         handleSubmit,
         handleChange,
+        successMessage
     };
 
 }

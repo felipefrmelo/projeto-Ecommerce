@@ -3,12 +3,11 @@ import PedidosItem from "../../components/pedido/PedidosItem";
 import Paginacao from "@/src/components/paginacao/Paginacao";
 import usePedidos from "../../data/hooks/usePedidos";
 import usePaginacao from "../../data/hooks/usePaginacao";
-import { Pedido } from '@core/pedido';
+import { Pedido } from "@/src/core";
 import AcoesPedido from "@/src/components/pedido/AcoesPedido";
-import { useState } from "react";
 
 export default function Home() {
-    const { itensPedidos, criarPedido, deletarPedido } = usePedidos();
+    const { itensPedidos, criarPedido, deletarPedido, atualizarPedido, obterPedidoPorId  } = usePedidos();
 
     const itensPorPagina = 3;
 
@@ -27,6 +26,9 @@ export default function Home() {
         await deletarPedido(id);
     };
 
+    const handleUpdate = async (pedidoAtualizado: Pedido) => {
+        await atualizarPedido(pedidoAtualizado, pedidoAtualizado.id);
+    };
 
     return (
         <div style={{
@@ -40,9 +42,10 @@ export default function Home() {
             <AcoesPedido
                 onCreate={handleCreate}
                 onDelete={handleDelete}
+                onUpdate={handleUpdate}
+                obterPedidoPorId={obterPedidoPorId} 
             />
         
-
             {pedidosPaginados.map((pedido: Pedido) => (
                 <PedidosItem key={pedido.id} pedido={pedido} />
             ))}

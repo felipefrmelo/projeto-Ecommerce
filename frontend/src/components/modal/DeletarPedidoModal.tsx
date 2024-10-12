@@ -1,7 +1,7 @@
 import { useModalDeletar } from "@/src/data/hooks/useModalDeletar";
 
 export default function DeletarPedidoModal({ onDelete }: { onDelete: (id: number) => void }) {
-    const { pedidoId, setPedidoId, handleDelete } = useModalDeletar({ onDelete });
+    const { pedidoId, setPedidoId, handleDelete, successMessage, errorMessage } = useModalDeletar({ onDelete });
 
     return (
         <div style={{
@@ -39,13 +39,15 @@ export default function DeletarPedidoModal({ onDelete }: { onDelete: (id: number
                         backgroundColor: 'red',
                         color: 'white',
                         borderRadius: '5px',
-                        padding: '10px 15px',
+                        padding: '5px 5px',
                         cursor: 'pointer',
-                        flex: '1 1 100px',
-                        maxWidth: '150px'
-                    }}>
+                        width: '150px'
+                        }}>
                     Deletar
                 </button>
+                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                
             </div>
         </div>
     );

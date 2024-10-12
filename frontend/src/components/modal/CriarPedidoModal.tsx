@@ -1,9 +1,9 @@
-import { Pedido } from '@core/pedido';
+import { Pedido } from "@/src/core";
 import styles from './Modal.module.css';
 import { useModal } from '@/src/data/hooks/useModalCriar';
 
 export default function CriarPedidoModal({ onSubmit }: { onSubmit: (pedido: Pedido) => void }) {
-    const { pedido, setPedido, handleSubmit, handleChange } = useModal({ onSubmit });
+    const { pedido, setPedido, handleSubmit, handleChange, successMessage } = useModal({ onSubmit });
 
 
     return (
@@ -127,6 +127,8 @@ export default function CriarPedidoModal({ onSubmit }: { onSubmit: (pedido: Pedi
                     }}>
                     Criar
                 </button>
+                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+
             </div>
         </div>
     );
