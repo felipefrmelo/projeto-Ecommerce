@@ -11,16 +11,23 @@ Outros: Node.js e npm
 
 ### Rodar o programa ###
 -Clone o repositorio na sua máquina
+
 git clone https://github.com/johngitfla/projeto-ecommerce.git
 
 -Instale as dependêcias
+
 cd frontend
+
 npm install
+
 cd..
+
 cd backend
+
 npm install
 
 -Roda o programa na pasta raiz:
+
 npm run dev
 
 Ele rodará o frontend na porta 3000 e o backend na porta 4000
