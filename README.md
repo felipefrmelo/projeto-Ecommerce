@@ -12,7 +12,7 @@ Outros: Node.js e npm
 ### Rodar o programa ###
 -Clone o repositorio na sua máquina
 
-git clone https://github.com/johngitfla/projeto-ecommerce.git
+git clone https://github.com/johngitfla/projeto-Ecommerce.git
 
 -Instale as dependêcias
 
