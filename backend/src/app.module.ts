@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { PedidoModule } from './produto/pedido.module'; 
+import { PedidoModule } from './pedido/pedido.module'; 
 
 @Module({
   imports: [PedidoModule], 

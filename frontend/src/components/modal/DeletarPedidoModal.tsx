@@ -1,27 +1,33 @@
 import { useModalDeletar } from "@/src/data/hooks/useModalDeletar";
 
-export default function DeletarPedidoModal({ onDelete }: { onDelete: (id: number) => void }) {
-    const { pedidoId, setPedidoId, handleDelete, successMessage, errorMessage } = useModalDeletar({ onDelete });
+interface DeletarPedidoModalProps {
+    onSubmit: (id: number) => void;
+    closeModal: () => void; 
+}
+
+export default function DeletarPedidoModal({ onSubmit, closeModal }: DeletarPedidoModalProps) {
+    const { pedidoId, setPedidoId, handleDelete, successMessage, errorMessage } = useModalDeletar({ onSubmit });
+
+    const handleDeleteClick = async () => {
+        await handleDelete(); 
+    };
 
     return (
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-        }}>
+
             <div style={{
                 display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'center',
+                flexDirection: 'column',
+                alignItems: 'center',
                 gap: '15px',
                 width: '50%', 
                 padding: '20px',
                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                 borderRadius: '10px',
                 backgroundColor: '#f9f9f9',
+                margin: '0 auto'
             }}>
                 <h2 style={{ width: '100%', textAlign: 'center' }}>Deletar Pedido</h2>
-    
+
                 <input 
                     style={{
                         border: '1px solid',
@@ -33,22 +39,37 @@ export default function DeletarPedidoModal({ onDelete }: { onDelete: (id: number
                     value={pedidoId || ''} 
                     onChange={(e) => setPedidoId(Number(e.target.value))} 
                 />
-    
-                <button onClick={handleDelete} 
-                    style={{
-                        backgroundColor: 'red',
-                        color: 'white',
-                        borderRadius: '5px',
-                        padding: '5px 5px',
-                        cursor: 'pointer',
-                        width: '150px'
+                <div style={{ display: 'flex', gap: '10px'}}>
+                    <button onClick={handleDeleteClick} 
+                        style={{
+                            backgroundColor: 'red',
+                            color: 'white',
+                            borderRadius: '5px',
+                            padding: '5px 5px',
+                            cursor: 'pointer',
+                            width: '150px',
+                            border: '1px solid red'
+
                         }}>
-                    Deletar
-                </button>
-                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-                
+                        Deletar
+                    </button>
+                    
+                    {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                    
+                    <button onClick={closeModal}
+                        style={{
+                            backgroundColor: 'gray',
+                            color: 'white',
+                            borderRadius: '5px',
+                            padding: '5px 5px',
+                            cursor: 'pointer',
+                            width: '150px',
+                            border: '1px solid gray'
+                        }}>
+                        Cancelar
+                    </button>
+                </div>
             </div>
-        </div>
     );
 }

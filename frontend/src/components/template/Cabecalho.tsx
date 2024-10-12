@@ -1,7 +1,3 @@
-import Logo from '../shared/Logo'
-import IconeCarrinho from '../shared/IconeCarrinho'
-import Link from 'next/link'
-
 export default function Cabecalho() {
     return (
         <div
@@ -10,7 +6,9 @@ export default function Cabecalho() {
                 height: '80px',
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                width: '100%',
+                    
             }}
         >
             <div 

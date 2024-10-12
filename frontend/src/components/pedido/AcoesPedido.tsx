@@ -4,6 +4,7 @@ import AtualizarPedidoModal from "../modal/AtualizarPedidoModal";
 import { Pedido } from "@/src/core";
 import { useAcoesPedido } from "@/src/data/hooks/useAcoesPedido";
 import { useState, useCallback } from "react";
+import styles from './AcoesPedido.module.css';
 
 interface AcoesPedidoProps {
   onCreate: (pedido: Pedido) => void;
@@ -33,74 +34,37 @@ export default function AcoesPedido({ onCreate, onDelete, onUpdate, obterPedidoP
       } else {
         alert("Pedido não encontrado.");
       }
+    } else {
+      alert('Insira o ID');
     }
   }, [pedidoId, obterPedidoPorId, openModal, setSelectedPedido]);
 
   return (
-    <div style={{ width: "100%" }}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          gap: "30px",
-          width: "100%",
-          paddingBottom: "20px",
-        }}
-      >
-        <button
-          style={{
-            backgroundColor: "green",
-            color: "white",
-            borderRadius: "10px",
-            padding: "8px 15px",
-            fontWeight: "500",
-          }}
-          onClick={() => openModal("create")}
-        >
+    <div className={styles.container}>
+      <div className={styles.buttonContainer}>
+        <button className={styles.createButton} onClick={() => openModal("create")}>
           Criar Pedido
         </button>
 
-        <button
-          style={{
-            backgroundColor: "red",
-            color: "white",
-            borderRadius: "10px",
-            padding: "8px 15px",
-            fontWeight: "500",
-          }}
-          onClick={() => openModal("delete")}
-        >
+        <button className={styles.deleteButton} onClick={() => openModal("delete")}>
           Deletar Pedido
+        </button>
+
+        <button className={styles.updateButton} onClick={handleFindPedido}>
+          Atualizar Pedido
         </button>
 
         <input
           type="number"
           value={pedidoId}
           onChange={(e) => setPedidoId(e.target.value)}
-          placeholder="ID do Pedido"
-          style={{
-            padding: "8px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-          }}
+          placeholder="ID pedido atualizado"
+          className={styles.inputId}
         />
-        <button
-          style={{
-            backgroundColor: "blue",
-            color: "white",
-            borderRadius: "10px",
-            padding: "8px 15px",
-            fontWeight: "500",
-          }}
-          onClick={handleFindPedido}
-        >
-          Atualizar Pedido
-        </button>
       </div>
 
-      {modalType === "create" && <CriarPedidoModal onSubmit={onCreate} />}
-      {modalType === "delete" && <DeletarPedidoModal onDelete={onDelete} />}
+      {modalType === "create" && <CriarPedidoModal onSubmit={onCreate} closeModal={closeModal} />}
+      {modalType === "delete" && <DeletarPedidoModal onSubmit={onDelete} closeModal={closeModal} />}
       {modalType === "update" && selectedPedido && (
         <AtualizarPedidoModal pedido={selectedPedido} onSubmit={onUpdate} closeModal={closeModal} />
       )}
