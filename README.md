@@ -4,7 +4,9 @@ Programa que roda uma interface simples que lista pedidos.
 
 ### Tecnologias utilizadas ###
 Frontend: React.js
+
 Backend: Nest.js
+
 Outros: Node.js e npm
 
 ### Rodar o programa ###
