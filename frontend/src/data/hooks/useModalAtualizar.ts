@@ -6,6 +6,12 @@ export function useAtualizarPedido(pedidoInicial: Pedido) {
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     useEffect(() => {
+    // esse use effect esta repetindo o mesmo código do useModalCriar.tsx
+    // como sugestão não criar um novo estado para valorSubtotal e valorSubtotal
+    // em vez disso, esses valores podem ser calculados diretamente a partir do pedido por exemplo
+    // no core Pedido.ts
+    // Se caso for muito complxo deixar esse responsabilidade para o backend
+    // Sugestão de leitura -> https://react.dev/learn/thinking-in-react#step-3-find-the-minimal-but-complete-representation-of-ui-state
         const subtotal = pedido.itensPedidos.qntde * pedido.itensPedidos.valorUnitario;
         const total = subtotal + pedido.valorFrete;
         setPedido((prev) => ({ ...prev, valorSubtotal: subtotal, valorTotal: total }));
