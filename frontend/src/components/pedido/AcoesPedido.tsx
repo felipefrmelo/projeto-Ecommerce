@@ -13,6 +13,13 @@ interface AcoesPedidoProps {
   obterPedidoPorId: (id: number) => Promise<Pedido | null>; 
 }
 
+function getErrorMessage(error: unknown) {
+	if (error instanceof Error) return error.message
+	//if (error instanceof ErrorAbc) return ... 
+  //if (error instanceof ErrorXyz) return ...
+	return String(error)
+}
+
 export default function AcoesPedido({ onCreate, onDelete, onUpdate, obterPedidoPorId }: AcoesPedidoProps) {
   const {
     isModalOpen,
@@ -26,16 +33,17 @@ export default function AcoesPedido({ onCreate, onDelete, onUpdate, obterPedidoP
   const [pedidoId, setPedidoId] = useState<number | string>("");
 
   const handleFindPedido = useCallback(async () => {
-    if (pedidoId) {
-      const pedido = await obterPedidoPorId(Number(pedidoId));
-      if (pedido) {
-        setSelectedPedido(pedido);
-        openModal("update");
-      } else {
-        alert("Pedido não encontrado.");
-      }
-    } else {
+    if (!pedidoId) {
       alert('Insira o ID');
+    } 
+    // mudando a função para em vez de esperar null esperar um erro
+    try {
+      const pedido = await obterPedidoPorId(Number(pedidoId));
+      setSelectedPedido(pedido);
+      openModal("update");
+
+    } catch (error) {
+      alert(getErrorMessage(error));
     }
   }, [pedidoId, obterPedidoPorId, openModal, setSelectedPedido]);
 

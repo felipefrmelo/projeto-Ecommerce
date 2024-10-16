@@ -29,6 +29,9 @@ export function useModal({ onSubmit }: { onSubmit: (pedido: Pedido) => void }) {
     }
 
     function handleSubmit() {
+    // Essa validação ta repentindo no modal de atualizar pedido, mas aqui esta com erro
+    // permitindo que o pedido seja criado com valores negativos
+    // Essa validação poderia ser feita em um só lugar como por exemplo no core Pedido.ts
         if (pedido.nomeCliente === '' || 
             pedido.itensPedidos.nomeProduto === '' || 
             pedido.itensPedidos.qntde === 0 || 
